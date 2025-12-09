@@ -75,10 +75,15 @@ def load_model():
         feature_path = os.path.join(model_dir, "features.joblib")
         
         if os.path.exists(model_path):
-            model = joblib.load(model_path)
-            features = joblib.load(feature_path) if os.path.exists(feature_path) else config['model']['features']
-            return model, features
+            try:
+                model = joblib.load(model_path)
+                features = joblib.load(feature_path) if os.path.exists(feature_path) else config['model']['features']
+                return model, features
+            except Exception as e:
+                st.sidebar.warning(f"Error loading model: {e}")
+                return None, None
         else:
+            # Model not found - return None but don't show error in sidebar (will show in main area)
             return None, None
 
 
@@ -156,13 +161,34 @@ def show_home():
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.metric("Model Status", "✅ Ready" if model is not None else "❌ Not Loaded")
+        if model is not None:
+            st.metric("Model Status", "✅ Ready")
+        else:
+            st.metric("Model Status", "⚠️ Not Loaded")
     
     with col2:
-        st.metric("Features", len(features) if features else 0)
+        st.metric("Features", len(features) if features else 7)
     
     with col3:
-        st.metric("Model Type", "Random Forest" if model is not None else "N/A")
+        st.metric("Model Type", "Random Forest" if model is not None else "Random Forest")
+    
+    # Show helpful message if model not loaded
+    if model is None:
+        st.info("""
+        **📝 To use predictions, you need to train a model first:**
+        
+        1. **Train locally:**
+           ```bash
+           python src/train.py --month 2023-01
+           ```
+        
+        2. **Commit model files to GitHub** (if small enough)
+        
+        3. **Or use MLflow** with external storage (S3, etc.)
+        
+        **Note:** For Streamlit Cloud, you can train the model during deployment 
+        or use a pre-trained model from MLflow.
+        """)
     
     st.markdown("---")
     
