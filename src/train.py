@@ -49,10 +49,10 @@ def train_model(df: pd.DataFrame, model_dir: str = "models") -> tuple:
         X, y, test_size=0.2, random_state=42
     )
     
-    # Train model
+    # Train model (smaller for GitHub compatibility)
     model = RandomForestRegressor(
-        n_estimators=100,
-        max_depth=20,
+        n_estimators=50,  # Reduced from 100 for smaller file size
+        max_depth=15,     # Reduced from 20
         min_samples_split=5,
         min_samples_leaf=2,
         random_state=42,

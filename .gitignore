@@ -14,10 +14,13 @@ data/*.parquet
 data/*.csv
 !data/.gitkeep
 
-# Models (keep structure, ignore large files)
-models/*.joblib
-models/*.pkl
+# Models - allow small model files for Streamlit Cloud
+# models/*.joblib
+# models/*.pkl
 !models/.gitkeep
+# Only ignore very large files (>50MB)
+models/*large*.joblib
+models/*large*.pkl
 
 # MLflow (keep structure)
 mlflow/**/*
