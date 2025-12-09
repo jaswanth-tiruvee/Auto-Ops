@@ -46,6 +46,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
+@st.cache_data
+def load_config():
+    """Load configuration"""
+    config_path = Path(__file__).parent / "config.yaml"
+    with open(config_path, 'r') as f:
+        return yaml.safe_load(f)
+
+
 @st.cache_resource
 def load_model():
     """Load the trained model"""
@@ -59,7 +67,6 @@ def load_model():
             model_uri=f"models:/nyc_taxi_trip_duration/latest"
         )
         features = config['model']['features']
-        st.sidebar.success("✅ Model loaded from MLflow")
         return model, features
     except Exception as e:
         # Fallback to local model
@@ -70,19 +77,9 @@ def load_model():
         if os.path.exists(model_path):
             model = joblib.load(model_path)
             features = joblib.load(feature_path) if os.path.exists(feature_path) else config['model']['features']
-            st.sidebar.success("✅ Model loaded from local file")
             return model, features
         else:
-            st.sidebar.error("❌ Model not found. Please train a model first.")
             return None, None
-
-
-@st.cache_data
-def load_config():
-    """Load configuration"""
-    config_path = Path(__file__).parent / "config.yaml"
-    with open(config_path, 'r') as f:
-        return yaml.safe_load(f)
 
 
 def predict_trip_duration(model, features, trip_data):
@@ -123,6 +120,12 @@ def main():
     # Load model
     model, features = load_model()
     
+    # Show model status in sidebar
+    if model is not None:
+        st.sidebar.success("✅ Model Loaded")
+    else:
+        st.sidebar.warning("⚠️ Model not found. Train a model first!")
+    
     if page == "🏠 Home":
         show_home()
     elif page == "🔮 Predict":
@@ -146,6 +149,9 @@ def main():
 def show_home():
     """Home page"""
     st.markdown("## Welcome to Auto-Ops!")
+    
+    # Load model for display
+    model, features = load_model()
     
     col1, col2, col3 = st.columns(3)
     
@@ -470,12 +476,5 @@ def show_about():
 
 
 if __name__ == "__main__":
-    # Initialize model variable
-    model, features = load_model() if 'model' not in st.session_state else (st.session_state.model, st.session_state.features)
-    
-    if model is not None:
-        st.session_state.model = model
-        st.session_state.features = features
-    
     main()
 
