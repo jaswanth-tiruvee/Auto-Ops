@@ -97,7 +97,6 @@ I can help you convert your FastAPI app to Streamlit - it's much simpler!
 | **Railway** | ⭐⭐⭐⭐ | 3 min | ✅ $5/month | Production |
 | **Streamlit Cloud** | ⭐⭐⭐⭐⭐ | 2 min | ✅ Forever | ML apps |
 | **Replit** | ⭐⭐⭐⭐⭐ | 1 min | ✅ Limited | Quick demos |
-| **Render** | ⭐⭐⭐ | 10 min | ✅ Limited | Production |
 
 ---
 
