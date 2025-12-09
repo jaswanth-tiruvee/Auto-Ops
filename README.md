@@ -10,6 +10,47 @@
 
 > **Note:** Free tier may take 30-60 seconds to wake up on first request after inactivity.
 
+## 🚀 Quick Setup
+
+```bash
+# 1. Clone repository
+git clone https://github.com/jaswanth-tiruvee/Auto-Ops.git
+cd Auto-Ops
+
+# 2. Create virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Train model
+python src/train.py --month 2023-01
+
+# 5. Start API
+python src/serve.py
+```
+
+## 📦 Deployment
+
+### Deploy to Render (Free)
+
+1. Push code to GitHub
+2. Go to [Render.com](https://render.com) and sign up with GitHub
+3. Create new Web Service
+4. Connect your repository
+5. Configure:
+   - Environment: `Docker`
+   - Dockerfile Path: `docker/Dockerfile`
+   - Plan: `Free`
+6. Add environment variables:
+   - `MLFLOW_TRACKING_URI=file:./mlflow`
+   - `MODEL_SERVING_HOST=0.0.0.0`
+   - `MODEL_SERVING_PORT=8000`
+7. Deploy!
+
+See `render.yaml` for configuration.
+
 ## Business Problem
 
 Models rot over time. Manually retraining them is slow and error-prone. This project demonstrates an automated solution that detects data drift and triggers retraining automatically.
