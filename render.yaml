@@ -13,4 +13,6 @@ services:
         value: 8000
     plan: free
     healthCheckPath: /health
+    buildCommand: ""
+    startCommand: ""
 
