@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: auto-ops-api
+    env: docker
+    dockerfilePath: ./docker/Dockerfile
+    dockerContext: .
+    envVars:
+      - key: MLFLOW_TRACKING_URI
+        value: file:./mlflow
+      - key: MODEL_SERVING_HOST
+        value: 0.0.0.0
+      - key: MODEL_SERVING_PORT
+        value: 8000
+    plan: free
+    healthCheckPath: /health
+

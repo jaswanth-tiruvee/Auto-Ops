@@ -1,0 +1,43 @@
+# Auto-Ops Configuration
+
+# Data Configuration
+data:
+  source_url: "https://d37ci6vzurychx.cloudfront.net/trip-data"
+  data_dir: "data"
+  reference_month: "2023-01"  # Month 1 for baseline model
+  
+# Model Configuration
+model:
+  model_dir: "models"
+  target: "trip_duration_minutes"
+  features:
+    - "trip_distance"
+    - "passenger_count"
+    - "hour"
+    - "day_of_week"
+    - "month"
+    - "pickup_location_id"
+    - "dropoff_location_id"
+  
+# MLflow Configuration
+mlflow:
+  tracking_uri: "file:./mlflow"
+  experiment_name: "nyc_taxi_trip_duration"
+  
+# Drift Detection Configuration
+drift:
+  threshold: 0.5  # Drift threshold (0-1)
+  window_size: 1000  # Number of predictions to analyze
+  check_interval: 100  # Check drift every N predictions
+  
+# Model Serving Configuration
+serving:
+  host: "0.0.0.0"
+  port: 8000
+  model_version: "latest"  # or specific version number
+  
+# Airflow Configuration
+airflow:
+  dag_id: "retrain_model_dag"
+  schedule_interval: "@daily"  # Check daily for drift
+

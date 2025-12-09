@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Data
+data/*.parquet
+data/*.csv
+!data/.gitkeep
+
+# Models (keep structure, ignore large files)
+models/*.joblib
+models/*.pkl
+!models/.gitkeep
+
+# MLflow (keep structure)
+mlflow/**/*
+!mlflow/.gitkeep
+
+# Airflow
+airflow/logs/
+airflow/airflow.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.log
+
+# Keep directories
+!data/
+!models/
+!mlflow/
